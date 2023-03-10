@@ -1,0 +1,50 @@
+
+
+# Create a variable that contains the data from the CSV file
+variable "csv_data" {
+  type = list(object({
+    name        = string
+    priority    = number
+    source_port = number
+    source      = string
+    destination = string
+    action      = string
+    direction   = string
+  }))
+  default = [
+    {
+      name        = "allow-ssh"
+      priority    = 100
+      source_port = 22
+      source      = "*"
+      destination = "*"
+      action      = "allow"
+      direction   = "inbound"
+    },
+    {
+      name        = "allow-http"
+      priority    = 200
+      source_port = 80
+      source      = "*"
+      destination = "*"
+      action      = "allow"
+      direction   = "inbound"
+    },
+  ]
+}
+
+# Create a resource for each row in the CSV
+resource "azurerm_network_security_rule" "csv_rule" {
+  count = length(var.csv_data)
+
+  name                        = element(var.csv_data[count.index].name, var.csv_data)
+  priority                    = element(var.csv_data[count.index].priority, var.csv_data)
+  source_port_range           = element(var.csv_data[count.index].source_port, var.csv_data)
+  source_address_prefix       = element(var.csv_data[count.index].source, var.csv_data)
+  destination_address_prefix  = element(var.csv_data[count.index].destination, var.csv_data)
+  access                      = element(var.csv_data[count.index].action, var.csv_data)
+  direction                   = element(var.csv_data[count.index].direction, var.csv_data)
+  protocol                    = "*"
+  resource_group_name         = "my_resource_group"
+  network_security_group_name = "my_nsg"
+}

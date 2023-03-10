@@ -1,0 +1,22 @@
+
+
+import paramiko
+
+# Create the SSH client
+client = paramiko.SSHClient()
+
+# Setting the missing host key policy
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+# Connect to the router
+client.connect(hostname="192.168.1.1", username="admin", password="password")
+
+# Execute the command
+stdin, stdout, stderr = client.exec_command("show ip route")
+
+# Print the output
+for line in stdout.readlines():
+    print(line.strip())
+
+# Close the connection
+client.close()

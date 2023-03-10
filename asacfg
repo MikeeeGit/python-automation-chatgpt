@@ -1,0 +1,21 @@
+
+
+# Importing required modules
+from netmiko import ConnectHandler
+
+# ASA Firewall configuration
+asa_firewall = {
+    'device_type': 'cisco_asa',
+    'host': 'host_ip_address',
+    'username': 'username',
+    'password': 'password'
+}
+
+# Establishing connection to ASA Firewall
+net_connect = ConnectHandler(**asa_firewall)
+
+# Configuring ASA Firewall
+net_connect.send_config_from_file('config_file.txt')
+
+# Disconnecting from ASA Firewall
+net_connect.disconnect()

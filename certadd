@@ -1,0 +1,36 @@
+
+
+import requests 
+
+# Set the IP address of the Palo Alto firewall
+PAN_IP = "192.168.1.1"
+
+# Set the username and password for authentication
+username = "admin"
+password = "password"
+
+# Set the path to the certificate file
+cert_path = "/path/to/certificate.pem"
+
+# Read the certificate file
+with open(cert_path, "rb") as f:
+    cert_data = f.read()
+
+# Set the API call parameters
+api_params = {
+    "type": "import",
+    "category": "certificate",
+    "key": cert_data
+}
+
+# Set the API call URL
+api_url = "https://{}/api".format(PAN_IP)
+
+# Make the API call
+r = requests.post(api_url, auth=(username, password), data=api_params)
+
+# Check the response code
+if r.status_code == 200:
+    print("Certificate added successfully")
+else:
+    print("Error adding certificate")

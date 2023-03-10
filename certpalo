@@ -1,0 +1,25 @@
+
+
+from pan.xapi import PanXapi
+
+# Connect to the firewall
+xapi = PanXapi(
+    hostname="<hostname>",
+    api_username="<username>",
+    api_password="<password>"
+)
+
+# Set the certificate to be uploaded
+certificate = "<certificate>"
+
+# Upload the certificate
+xapi.upload("upload", "certificate", "my-cert", certificate)
+
+# Set the certificate as the device certificate
+xapi.op("set deviceconfig system ip-address-trust-mode certificate")
+
+# Set the certificate as the system certificate
+xapi.op("set deviceconfig system certificate my-cert")
+
+# Commit the changes
+xapi.commit(cmd="<commit><force></force></commit>")
