@@ -1,0 +1,13 @@
+
+
+import re
+import os
+
+#Check the version of Checkpoint Firewall
+version = os.popen("fw ver").read()
+if re.search(r'R80', version):
+    #run the command to get the HA status
+    ha_status = os.popen("cphaprob state").read()
+    print(ha_status)
+else:
+    print("This script is only applicable for Checkpoint Firewall version R80 and above")

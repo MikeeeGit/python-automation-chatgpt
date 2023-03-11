@@ -1,0 +1,39 @@
+
+
+# Create the Resource Group
+resource "azurerm_resource_group" "example" {
+  name     = var.rg_name
+  location = var.location
+}
+
+# Create the Virtual Network
+resource "azurerm_virtual_network" "example" {
+  name                = var.vnet_name
+  address_space       = var.vnet_address_space
+  location            = var.location
+  resource_group_name = azurerm_resource_group.example.name
+}
+
+# Create the Subnets
+resource "azurerm_subnet" "example" {
+  for_each = var.subnets
+
+  name                 = each.key
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefix       = each.value
+}
+
+# Create the Route Table
+resource "azurerm_route_table" "example" {
+  name                = var.route_table_name
+  location            = var.location
+  resource_group_name = azurerm_resource_group.example.name
+}
+
+# Create the Network Security Group
+resource "azurerm_network_security_group" "example" {
+  name                = var.nsg_name
+  location            = var.location
+  resource_group_name = azurerm_resource_group.example.name
+}

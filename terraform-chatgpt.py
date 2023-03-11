@@ -4,7 +4,7 @@ import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument("prompt", help="The prompt to send to the OpenAI API")
-parser.add_argument("file_name", help="Name of the file to save Python script")
+parser.add_argument("file_name", help="Name of the file to save Terraform script")
 args = parser.parse_args()
 
 api_endpoint = "https://api.openai.com/v1/completions"
