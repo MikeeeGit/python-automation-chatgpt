@@ -17,7 +17,7 @@ request_headers = {
 
 request_data = {
     "model": "text-davinci-003",
-    "prompt": f"Write terraform code to {args.prompt}. Provide only code, no text",
+    "prompt": f"Write terraform code to {args.prompt}. Provide code with comments only, no text",
     "max_tokens": 500,
     "temperature": 0.5
 }

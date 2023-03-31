@@ -1,0 +1,25 @@
+
+
+import requests
+
+# Define the URL
+url = "https://<firewall_IP>/api/<version>/<endpoint>"
+
+# Define the payload
+payload = {
+    "rule": {
+        "name": "Block_Malicious_IP",
+        "source": "192.168.1.1",
+        "destination": "192.168.1.2",
+        "action": "deny"
+    }
+}
+
+# Make the request
+response = requests.post(url, json=payload)
+
+# Check the response status
+if response.status_code == 200:
+    print("Firewall rule successfully deployed")
+else:
+    print("Error deploying firewall rule")

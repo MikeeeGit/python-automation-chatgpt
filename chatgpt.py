@@ -9,17 +9,17 @@ args = parser.parse_args()
 api_endpoint = "https://api.openai.com/v1/completions"
 api_key = os.getenv("OPENAI_API_KEY")
 
-
 request_headers = {
     "Content-Type": "application/json",
-    "Authorization": f"Bearer {api_key}"
+    "Authorization": "Bearer " + api_key
 }
 
 request_data = {
+    "model": "text-davinci-003",
+#    "prompt": f"Write terraform code to {args.prompt}. Provide only code, no text",
     "prompt": f"{args.prompt}",
     "max_tokens": 500,
     "temperature": 0.5,
-    "engine": "davinci-codex"
 }
 
 response = requests.post(api_endpoint, headers=request_headers, json=request_data)

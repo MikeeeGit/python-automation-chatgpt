@@ -1,0 +1,61 @@
+
+
+# Declare a resource group to store the application gateway
+resource "azurerm_resource_group" "app_gateway_group" {
+  name     = "appGatewayGroup"
+  location = "West Europe"
+}
+
+# Declare the application gateway resource
+resource "azurerm_application_gateway" "app_gateway" {
+  name                = "appGateway"
+  resource_group_name = azurerm_resource_group.app_gateway_group.name
+  location            = azurerm_resource_group.app_gateway_group.location
+
+  sku {
+    name     = "WAF_v2"
+    tier     = "WAF_v2"
+    capacity = 2
+  }
+
+  gateway_ip_configuration {
+    name      = "appGatewayIPConfig"
+    subnet_id = "subnet_id"
+  }
+
+  frontend_port {
+    name = "frontendPort"
+    port = 80
+  }
+
+  frontend_ip_configuration {
+    name                 = "appGatewayFrontendIP"
+    public_ip_address_id = "public_ip_id"
+  }
+
+  backend_address_pool {
+    name = "backendAddressPool"
+  }
+
+  backend_http_settings {
+    name                  = "httpSettings"
+    port                  = 80
+    protocol              = "Http"
+    cookie_based_affinity = "Disabled"
+  }
+
+  http_listener {
+    name                           = "httpListener"
+    frontend_ip_configuration_name = "appGatewayFrontendIP"
+    frontend_port_name             = "frontendPort"
+    protocol                       = "Http"
+  }
+
+  request_routing_rule {
+    name                       = "requestRoutingRule"
+    rule_type                  = "Basic"
+    http_listener_name         = "httpListener"
+    backend_address_pool_name  = "backendAddressPool"
+    backend_http_settings_name = "httpSettings"
+  }
+}

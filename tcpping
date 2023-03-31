@@ -1,0 +1,41 @@
+
+
+<html>
+  <head>
+    <title>TCP Ping</title>
+  </head>
+  <body>
+    <h1>TCP Ping</h1>
+    <div id="pingResults">
+      <p>Ping results will be displayed here.</p>
+    </div>
+    <script>
+      function pingHost(host, port) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", `/ping?host=${host}&port=${port}`, true);
+        xhr.onload = function (e) {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var result = JSON.parse(xhr.responseText);
+              if (result.success) {
+                document.getElementById('pingResults').innerHTML = `<input type="radio" name="pingResult" value="good" checked>Good<br>`;
+              } else {
+                document.getElementById('pingResults').innerHTML = `<input type="radio" name="pingResult" value="bad" checked>Bad<br>`;
+              }
+            } else {
+              console.error(xhr.statusText);
+            }
+          }
+        };
+        xhr.onerror = function (e) {
+          console.error(xhr.statusText);
+        };
+        xhr.send(null);
+      }
+
+      setInterval(() => {
+        pingHost('x', 'y');
+      }, 60000);
+    </script>
+  </body>
+</html>
