@@ -1,15 +1,11 @@
 
 
-# Creating a resource group
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West US"
+resource "aws_eip" "public_ip" {
+  # Create an elastic IP
+  vpc = true
 }
 
-# Creating a public IP address
-resource "azurerm_public_ip" "example" {
-  name                = "example-public-ip"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-  allocation_method   = "Static"
+output "public_ip" {
+  # Output the public IP
+  value = aws_eip.public_ip.public_ip
 }

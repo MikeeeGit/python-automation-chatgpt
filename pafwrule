@@ -1,0 +1,50 @@
+
+
+#importing the necessary libraries 
+import requests
+import json
+
+#Defining the API endpoint
+endpoint = "https://api.paloaltonetworks.com/api/v2/policies/rules"
+
+#Defining the API request headers
+headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer <token>'
+}
+
+#Defining the payload for the API request
+payload = {
+    "type": "security",
+    "name": "My_Firewall_Rule",
+    "source": {
+        "zone": "Trust",
+        "addresses": [
+            {
+                "name": "Any"
+            }
+        ]
+    },
+    "destination": {
+        "zone": "Untrust",
+        "addresses": [
+            {
+                "name": "Any"
+            }
+        ]
+    },
+    "application": [
+        {
+            "name": "any"
+        }
+    ],
+    "action": "deny",
+    "enabled": True
+}
+
+#Sending the POST request to the API endpoint
+response = requests.post(endpoint, headers=headers, data=json.dumps(payload))
+
+#Printing the response code
+print(response.status_code)
