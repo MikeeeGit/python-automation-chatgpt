@@ -100,11 +100,9 @@ client = bybit.bybit(test=False, api_key=config.api_key, api_secret=config.api_s
 # Get wallet balance
 balance = client.Wallet.Wallet_getBalance(coin="BTC").result()
 
-print(balance[0])
-print(balance[1])
+
 
 # Print BTC balance
 print(f"BTC Balance: {balance[0]['result']['BTC']['available_balance']}")
 
 
-print ( {balance[0]['balance']})

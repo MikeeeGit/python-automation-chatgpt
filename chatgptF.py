@@ -3,8 +3,12 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument("prompt", help="The prompt to send to the OpenAI API")
+parser.add_argument("file_path", help="Path to the file with prompt to send to the OpenAI API")
 args = parser.parse_args()
+
+# read file content
+with open(args.file_path, 'r') as file:
+    prompt = file.read()
 
 api_endpoint = "https://api.openai.com/v1/completions"
 api_key = os.getenv("OPENAI_API_KEY")
@@ -15,12 +19,9 @@ request_headers = {
 }
 
 request_data = {
-#    "model": "gpt-4-32k-0613",
-     "model": "text-davinci-003",
-#    "model": "gpt-3.5-turbo",
-#    "prompt": f"Write terraform code to {args.prompt}. Provide only code, no text",
-    "prompt": f"{args.prompt}",
-    "max_tokens": 800,
+    "model": "text-davinci-003",
+    "prompt": prompt,
+    "max_tokens": 500,
     "temperature": 0.5,
 }
 

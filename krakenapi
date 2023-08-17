@@ -1,0 +1,20 @@
+
+
+import requests 
+
+# Set up API URL
+url = 'https://api.kraken.com/0/private/Balance'
+
+# Set up API headers
+headers = {'Content-Type': 'application/x-www-form-urlencoded',
+           'API-Key': 'your_api_key',
+           'API-Sign': 'your_api_sign'}
+
+# Send request to API
+response = requests.get(url, headers=headers)
+
+# Parse response
+data = response.json()
+
+# Print out total balance
+print("Total balance:", data['result']['XXBT'])

@@ -1,0 +1,19 @@
+
+
+# Create the AWS EC2 instance
+resource "aws_instance" "example" {
+  # Set the AMI
+  ami           = "ami-12345678"
+  # Set the instance type
+  instance_type = "t2.micro"
+  # Set the region
+  availability_zone = "us-east-1a"
+  # Set the subnet
+  subnet_id     = "subnet-12345678"
+  # Set the security group
+  vpc_security_group_ids = ["sg-12345678"]
+  # Set the tags
+  tags = {
+    Name = "Example EC2 Instance"
+  }
+}
